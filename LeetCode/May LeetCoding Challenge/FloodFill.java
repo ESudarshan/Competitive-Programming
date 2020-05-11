@@ -1,7 +1,9 @@
 class Solution {
-    int visited[][];
+   
     public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
-        visited = new int[image.length][image[0].length];
+        if(image[sr][sc] == newColor) {
+            return image;
+        }
         floodFill(sr, sc, image[sr][sc], newColor, image);
         return image;
         
@@ -11,10 +13,6 @@ class Solution {
         if(r < 0 || r >= image.length || c < 0 || c >= image[r].length) {
             return;
         }
-        if(visited[r][c] == 1) {
-            return;
-        }
-        visited[r][c] = 1;
         if(image[r][c] != oc) {
             return;
         }
