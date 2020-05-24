@@ -1,65 +1,35 @@
 class Solution {
     public String removeKdigits(String num, int k) {
-        int len = num.length();
-        int need = len - k;
-        if(need <= 0) {
+        char[] array = num.toCharArray();
+        int n = array.length;
+        if(n == k) {
             return "0";
         }
-        String res = "";
-        for(int i=0; i<len; i++) {
-            int minDigIndex = findMinDigitIndex(num, i, len-1, need);
-            res += num.charAt(minDigIndex);   
-            need -= 1;
-            if(need == 0) {
-                break;
+        Stack<Character> stack = new Stack<>();
+        int i = 0;
+        while(i < n) {
+            while(!stack.isEmpty() && k != 0 && stack.peek() > array[i]) {
+                stack.pop();
+                 k--;
             }
-            if(minDigIndex + need == len - 1) {
-                res += num.substring(minDigIndex + 1);
-                break;
+            if(!stack.isEmpty() || (stack.isEmpty() && array[i] != '0')) {
+                stack.push(array[i]);
             }
-        }
-        int i =0;
-       System.out.println(res +" "+i);
-        while(i <=len-1 && res.charAt(i) == '0') {
             i++;
-       System.out.println(res +" "+i);
-            
         }
-        
-       // System.out.println(res +" "+i);
-        return i<=len-1?res.substring(i):"";
-    }
-    
-    private int findMinDigitIndex(String num, int start, int end, int need) {
-        int minDigitIndex = -1;
-        Queue<Pair> pq = new PriorityQueue<>(); 
-        for(int i=start; i<=end; i++) {
-            pq.add(new Pair(i, Character.getNumericValue(num.charAt(i))));
+        StringBuilder res = new StringBuilder();
+        if(stack.isEmpty()) {
+            return "0";
         }
-        Pair pair = pq.remove();
-        while(pair.index + need > end + 1) {
-            pair = pq.remove();
+        if(k != 0) {
+            while(k != 0) {
+                stack.pop();
+                k--;
+            }         
         }
-        return pair.index;
-    }
-    
-    class Pair implements Comparable<Pair> {
-        public int index;
-        public int value;
-        
-        public Pair(int index, int value) {
-            this.index = index;
-            this.value = value;
+        while(!stack.isEmpty()) {
+            res.insert(0, stack.pop());
         }
-        
-        public int compareTo(Pair that) {
-            if(this.value < that.value) {
-                return -1;
-            } else if(this.value > that.value) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
+        return res.toString();
     }
 }
