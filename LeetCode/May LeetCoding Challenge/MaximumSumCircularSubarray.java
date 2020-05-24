@@ -4,18 +4,20 @@ class Solution {
         if(n == 1) {
             return A[0];
         }
-        int maxSum = Integer.MIN_VALUE;
-        for(int i=0; i<n; i++) {
-            int sum = A[i];
-            int j = (i+1)%n;
-            int counter = 1;
-            while(counter < n){
-                sum = Math.max(sum + A[j], A[j]);
-                maxSum = Math.max(maxSum, sum);
-                j = (j+1)%n;
-                counter++;
-            }
+        int currMaxSum = A[0];
+        int maxSum = A[0];
+        int currMinSum = A[0];
+        int minSum = A[0];
+        int totalSum = A[0];
+        for(int i = 1; i < n ; i++) {
+            currMaxSum = Math.max(currMaxSum + A[i], A[i]);
+            maxSum = Math.max(maxSum, currMaxSum);
+
+            currMinSum = Math.min(currMinSum + A[i], A[i]);
+            minSum = Math.min(minSum, currMinSum);
+
+            totalSum += A[i];
         }
-        return maxSum;
+        return maxSum < 0 ? maxSum : Math.max(maxSum, totalSum-minSum);
     }
 }
