@@ -13,35 +13,16 @@ class Solution {
         if(head == null) {
             return null;
         }
-        ListNode temp = head;
-        ListNode evenTail = null;
-        ListNode oddTail = null;
-        ListNode evenHead = null;
-        int i = 1;
-        while(temp != null) {
-            if(i%2 != 0) {
-                 if(oddTail == null) {
-                    oddTail = temp;
-                } else {
-                    oddTail.next = temp;  
-                    oddTail = oddTail.next;
-                } 
-            } else {
-                if(evenTail == null) {
-                    evenTail = temp;
-                    evenHead = temp;
-                } else {
-                    evenTail.next = temp;  
-                    evenTail = evenTail.next;
-                } 
-            }
-            temp = temp.next;
-            i++;
-        }
-        if(evenTail != null) {
-            evenTail.next = null;
+        ListNode oddTail = head;
+        ListNode evenHead = head.next;
+        ListNode evenTail = head.next;
+        while(evenTail != null && evenTail.next != null) {
+            oddTail.next = evenTail.next;
+            oddTail = oddTail.next;
+            evenTail.next = oddTail.next;
+            evenTail = evenTail.next;
         }
         oddTail.next = evenHead;
         return head;
-    }   
+    }
 }
