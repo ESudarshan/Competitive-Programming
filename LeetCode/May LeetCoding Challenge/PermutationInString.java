@@ -1,31 +1,31 @@
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        HashMap<Character, Integer> map = new HashMap<>();
-        for(char ch : s1.toCharArray()) {
-            map.put(ch, map.getOrDefault(ch, 0)+1);
+        if(s1 == null || s1.length() == 0 || s2 == null || s2.length() == 0 || s1.length() > s2.length()) {
+            return false;
         }
-        int s1n = s1.length();
-        int s2n = s2.length();
-        for(int i=0; i<=s2n-s1n; i++) {
-            int j = i;
-            int k = i+s1n;
-            HashMap<Character, Integer> temp = new HashMap<>();
-            temp.putAll(map);
-            while(j < k) {  
-                char ch = s2.charAt(j);
-                if(temp.containsKey(ch)) {
-                    int count = temp.get(ch);
-                    if(count == 0) {
-                        break;
-                    }
-                    temp.put(ch, count-1);
-                } else {
-                   break;
-                }
-                j++;
-            }
-            if(j == k) {
+        int s1Freq[] = new int[26];
+        for(char ch : s1.toCharArray()) {
+            s1Freq[ch - 'a']++;
+        }
+        int s2Freq[] = new int[26];
+        int left = 0;
+        int right = 0;
+        int s1Len = s1.length();
+        int s2Len = s2.length();
+        while(right < s1Len) {
+            s2Freq[s2.charAt(right) - 'a']++;
+            right++;
+        }
+        right--;
+        while(right < s2Len) {
+            if(Arrays.equals(s1Freq, s2Freq)) {
                 return true;
+            }
+            s2Freq[s2.charAt(left) - 'a']--;
+            left++;
+            right++;
+            if(right < s2Len) {
+                s2Freq[s2.charAt(right) - 'a']++;
             }
         }
         return false;
