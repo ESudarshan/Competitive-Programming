@@ -22,7 +22,7 @@ class Solution {
         int end;
         for(int i=0; i<len; i++) {
             if(i == 0) {
-                start = 0;
+                start = 1;
             } else {
                 start = W[i-1] + 1;
             }
@@ -40,5 +40,4 @@ class Solution {
  * Your Solution object will be instantiated and called as such:
  * Solution obj = new Solution(w);
  * int param_1 = obj.pickIndex();
- */
  */
